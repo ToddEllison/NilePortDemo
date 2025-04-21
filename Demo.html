@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nile Switch Port Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f111a;
+      color: #e4e4e4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    header {
+      background-color: #1b1e2e;
+      width: 100%;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      border-bottom: 1px solid #2a2d3f;
+    }
+
+    .switch-container {
+      position: relative;
+      width: 1024px;
+      height: 103px;
+      background: url("Switch.png") no-repeat center center;
+      background-size: cover;
+      border: 1px solid #333;
+      margin-top: 40px;
+    }
+
+    .port {
+      position: absolute;
+      width: 32px;
+      height: 30px;
+      background-color: transparent;
+      mix-blend-mode: screen;
+      cursor: pointer;
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 1024px;
+      background-color: #181a25;
+      border-top: 1px solid #2a2d3f;
+      margin-top: 30px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .legend {
+      flex: 1;
+    }
+
+    .legend h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #a5a7b0;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .legend-color {
+      width: 16px;
+      height: 16px;
+      margin-right: 10px;
+      border-radius: 3px;
+      border: 1px solid #333;
+    }
+
+    .validation-status {
+      font-size: 14px;
+      color: #7fa2ff;
+      text-align: right;
+    }
+    button#reset-button {
+        background-color: #2f354d;
+        color: #fff;
+        border: 1px solid #434a61;
+        border-radius: 4px;
+        padding: 6px 12px;
+        margin-top: 8px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+
+    button#reset-button:hover {
+        background-color: #3c435d;
+    }
+    /* Port positions */
+    #port1 { top: 20px; left: 22px; }
+    #port2 { top: 54px; left: 22px; }
+    #port3 { top: 20px; left: 55px; }
+    #port4 { top: 54px; left: 55px; }
+    #port5 { top: 20px; left: 88px; }
+    #port6 { top: 54px; left: 88px; }
+    #port7 { top: 20px; left: 121px; }
+    #port8 { top: 54px; left: 121px; }
+    #port9 { top: 20px; left: 154px; }
+    #port10 { top: 54px; left: 154px; }
+    #port11 { top: 20px; left: 186px; }
+    #port12 { top: 54px; left: 186px; }
+    #port13 { top: 20px; left: 227px; }
+    #port14 { top: 54px; left: 227px; }
+    #port15 { top: 20px; left: 260px; }
+    #port16 { top: 54px; left: 260px; }
+    #port17 { top: 20px; left: 293px; }
+    #port18 { top: 54px; left: 293px; }
+    #port19 { top: 20px; left: 326px; }
+    #port20 { top: 54px; left: 326px; }
+    #port21 { top: 20px; left: 358px; }
+    #port22 { top: 54px; left: 358px; }
+    #port23 { top: 20px; left: 391px; }
+    #port24 { top: 54px; left: 391px; }
+    #port25 { top: 20px; left: 438px; }
+    #port26 { top: 54px; left: 438px; }
+    #port27 { top: 20px; left: 471px; }
+    #port28 { top: 54px; left: 471px; }
+    #port29 { top: 20px; left: 504px; }
+    #port30 { top: 54px; left: 504px; }
+    #port31 { top: 20px; left: 537px; }
+    #port32 { top: 54px; left: 537px; }
+    #port33 { top: 20px; left: 569px; }
+    #port34 { top: 54px; left: 569px; }
+    #port35 { top: 20px; left: 602px; }
+    #port36 { top: 54px; left: 602px; }
+    #port37 { top: 20px; left: 643px; }
+    #port38 { top: 54px; left: 643px; }
+    #port39 { top: 20px; left: 676px; }
+    #port40 { top: 54px; left: 676px; }
+    #port41 { top: 20px; left: 709px; }
+    #port42 { top: 54px; left: 709px; }
+    #port43 { top: 20px; left: 741px; }
+    #port44 { top: 54px; left: 741px; }
+    #port45 { top: 20px; left: 774px; }
+    #port46 { top: 54px; left: 774px; }
+    #port47 { top: 20px; left: 807px; }
+    #port48 { top: 54px; left: 807px; }
+    #portSFP1 { top: 20px; left: 934px; }
+    #portSFP2 { top: 54px; left: 934px; }
+
+  </style>
+</head>
+<body>
+  <header>Nile Port Viewer</header>
+
+  <div class="switch-container">
+    <!-- Port elements -->
+    <div id="port1" class="port"></div>
+    <div id="port2" class="port"></div>
+    <div id="port3" class="port"></div>
+    <div id="port4" class="port"></div>
+    <div id="port5" class="port"></div>
+    <div id="port6" class="port"></div>
+    <div id="port7" class="port"></div>
+    <div id="port8" class="port"></div>
+    <div id="port9" class="port"></div>
+    <div id="port10" class="port"></div>
+    <div id="port11" class="port"></div>
+    <div id="port12" class="port"></div>
+    <div id="port13" class="port"></div>
+    <div id="port14" class="port"></div>
+    <div id="port15" class="port"></div>
+    <div id="port16" class="port"></div>
+    <div id="port17" class="port"></div>
+    <div id="port18" class="port"></div>
+    <div id="port19" class="port"></div>
+    <div id="port20" class="port"></div>
+    <div id="port21" class="port"></div>
+    <div id="port22" class="port"></div>
+    <div id="port23" class="port"></div>
+    <div id="port24" class="port"></div>
+    <div id="port25" class="port"></div>
+    <div id="port26" class="port"></div>
+    <div id="port27" class="port"></div>
+    <div id="port28" class="port"></div>
+    <div id="port29" class="port"></div>
+    <div id="port30" class="port"></div>
+    <div id="port31" class="port"></div>
+    <div id="port32" class="port"></div>
+    <div id="port33" class="port"></div>
+    <div id="port34" class="port"></div>
+    <div id="port35" class="port"></div>
+    <div id="port36" class="port"></div>
+    <div id="port37" class="port"></div>
+    <div id="port38" class="port"></div>
+    <div id="port39" class="port"></div>
+    <div id="port40" class="port"></div>
+    <div id="port41" class="port"></div>
+    <div id="port42" class="port"></div>
+    <div id="port43" class="port"></div>
+    <div id="port44" class="port"></div>
+    <div id="port45" class="port"></div>
+    <div id="port46" class="port"></div>
+    <div id="port47" class="port"></div>
+    <div id="port48" class="port"></div>
+    <div id="portSFP1" class="port"></div>
+    <div id="portSFP2" class="port"></div>
+  </div>
+
+  <div class="sidebar">
+    <div class="legend">
+      <h3>Segment Legend</h3>
+      <div id="legend-container"></div>
+    </div>
+    <div class="validation-status">
+      <div id="status">Validating token...</div>
+      <button id="reset-button">Reset Token</button>
+    </div>
+  </div>
+
+  <script type="module" src="nile-port-viewer/app.js"></script>
+</body>
+</html>
