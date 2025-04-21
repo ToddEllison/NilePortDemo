@@ -20,17 +20,25 @@ A plug‑and‑play web demo for Nile Solution architects to visualize port conn
 
 ## Quick Start
 
-1. **Clone the repo**  
+1. **Create a Nile API key**
+Login to Nile Portal as a user 
+Navigate to Global Settings->Security
+Under "API Key Management" click "Add Key"
+Name the key and select the "MAB Onboarding" workflow
+Save the key and download the JSON file
+Open the JSON file and find the value for "api_token". This is your API key
+
+2. **Clone the repo**  
    ```bash
    git clone https://github.com/ToddEllison/NilePortDemo.git
    cd NilePortDemo
 
-2. **Run a local HTTP server from the project root**
+3. **Run a local HTTP server from the project root**
   ```bash
   python3 -m http.server 8080
   ```
 
-3. **Open the demo:**
+4. **Open the demo:**
 Navigate to http://localhost:8080/index.html
 On load, you’ll be prompted to enter your Nile API key.
 
